@@ -1,4 +1,4 @@
-def area base, height
+def area(base, height)
   base * height * 0.5
 end
 

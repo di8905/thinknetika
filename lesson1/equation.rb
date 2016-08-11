@@ -5,12 +5,12 @@ b = gets.chomp.to_f
 puts "Input C"
 c = gets.chomp.to_f
 
-def discriminant a, b, c
+def discriminant(a, b, c)
   b**2 - 4 * a * c
 end
 
-def equation_roots a, b, c
-  d = discriminant a, b, c
+def equation_roots(a, b, c)
+  d = discriminant(a, b, c)
   if d < 0
     puts "This equation have no roots"
   elsif d == 0
@@ -20,4 +20,4 @@ def equation_roots a, b, c
   end
 end
 
-equation_roots a, b, c
+equation_roots(a, b, c)
