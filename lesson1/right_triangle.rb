@@ -1,15 +1,9 @@
 def right_triange?(a, b, c)
-  if a**2 + b**2 == c**2 || a**2 + c**2 == b**2 || b**2 + c**2 == a**2
-    true
-  else false
-  end
+  a**2 + b**2 == c**2 || a**2 + c**2 == b**2 || b**2 + c**2 == a**2
 end
 
 def isosceles_triange?(a, b, c)
-  if a == b || b == c || c == b
-    true
-  else false
-  end
+  a == b || b == c || c == b
 end
 
 puts "Input side a"
