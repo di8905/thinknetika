@@ -5,7 +5,7 @@ def leap?(year)
 end
 
 def month_days_summator(month)
-  MONTHS[0..month].inject {|sum, days_count| sum + days_count}
+  MONTHS[0..month].inject(:+)
 end
 
 def correct_date?(day, month, year)
