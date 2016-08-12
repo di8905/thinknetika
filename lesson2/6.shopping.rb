@@ -4,7 +4,7 @@ class List
     @items = {}
   end
 
-  def add name
+  def add(name)
     puts "Enter price:"
     price = gets.chomp.to_f.round(2)
     puts "Enter quantity:"
@@ -29,7 +29,7 @@ loop do
   puts "Enter purchase name"
   name = gets.chomp.to_sym
   break if name == :stop
-  list.add name
+  list.add(name)
   list.print
   puts "Total list sum #{list.sum}"
 end
