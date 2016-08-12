@@ -1,4 +1,4 @@
-ALPHABET = ("a".."z").to_a
+ALPHABET = ("a".."z")
 VOWELS   = ["a", "e", "i", "o", "u", "y"]
 wov_hash = {}
 ALPHABET.each_with_index do |letter, i|
