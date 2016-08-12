@@ -4,8 +4,12 @@ def leap?(year)
   (year % 400).zero? || year == 2000 || ( (year % 4).zero? && !(year % 100).zero? )
 end
 
-def month_days_summator(month)
-  MONTHS[0..month].inject(:+)
+def full_months_days_summator(month)
+  if month < 2
+    0
+  elsif month >= 2
+  MONTHS[0..month-2].inject(:+)
+  end
 end
 
 def correct_date?(day, month, year)
@@ -13,14 +17,7 @@ def correct_date?(day, month, year)
 end
 
 def date_number(day, month, year)
-  if month < 2
-    day
-  elsif month == 2
-    day + month_days_summator(month-2)
-  else
-    leap?(year) ? day + month_days_summator(month-2) : day - 1 + month_days_summator(month-2)
-  end
-
+  leap?(year) ? day + full_months_days_summator(month) : day - 1 + full_months_days_summator(month)
 end
 
 loop do
