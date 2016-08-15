@@ -50,91 +50,96 @@ class Route
   end
 
   def add_waypoint!(station)
-  	@waypoints.insert(-2, station)
+    @waypoints.insert(-2, station)
   end
 
   def delete_waypoint!(station)
-  	@waypoints.delete(station)
+    @waypoints.delete(station)
   end
 
   def print
-  	@waypoints.each {|point| puts "Station #{point.name}\n"}
+    @waypoints.each {|point| puts "Station #{point.name}\n"}
   end
 
 end
 
 class Train
 
-  attr_accessor :current_station_id #Вообще ему место в private, но валится ошибка. Вопрос в каментах ниже.
+  attr_accessor :current_station #Вообще ему место в private, но валится ошибка. Вопрос в каментах ниже.
 
   attr_reader :route, :number, :type, :wagons_num
 
-	def initialize(number, type, wagons_num)
+  def initialize(number, type, wagons_num)
     @number     = number
     @type       = type
     @wagons_num = wagons_num
     @speed      = 0
-	end
-
-	def accelerate!(speed)
-    @speed = speed
-	end
-
-	def speed
-    @speed
-	end
-
-	def stop!
-    @speed = 0
-	end
-
-	def wagons_num
-    @wagons_num
-	end
-
-	def add_wagon!
-    @speed == 0 ? @wagons_num += 1 : pust("Can't add wagon, we are moving!")
-	end
-
-	def remove_wagon!
-    @speed == 0 ? @wagons_num -= 1 : puts("Can't remove wagon, we are moving!")
-	end
-
-	def route=(route) #Не пойму, стоит ли этот метод называть с восклицательным знаком? С методами просто меняющими атрибуты это очевидно, но здесь происходит гораздо больше.
-    @route = route
-    self.current_station_id = 0
-    get_to!(@route.waypoints[0].name) #Странно. Если current_station_id делаю private, в этом месте выдает ошибку, типа вызван private метод. Но это же нормально, мы внутри объекта. Почему я не могу тут вызвать private метод?
-	end
-
-  def get_to!(station)
-    dest_station_id = route.waypoints.find_index { |waypoint| waypoint.name == station }
-    if dest_station_id
-      route.waypoints[current_station_id].train_departure!(self)
-      route.waypoints[dest_station_id].train_arrive!(self)
-      self.current_station_id = dest_station_id
-    else
-      puts("There is no #{station} in my route, can't get there.")
-    end
   end
 
-	def current_station
-		self.route.waypoints[@current_station_id].name
-	end
+  def accelerate!(speed)
+    @speed = speed
+  end
 
-	def last_station
-		self.route.waypoints[@current_station_id-1].name
-	end
+  def speed
+    @speed
+  end
 
-	def next_station
-		self.route.waypoints[@current_station_id+1].name
-	end
+  def stop!
+    @speed = 0
+  end
+
+  def wagons_num
+    @wagons_num
+  end
+
+  def add_wagon!
+    @speed == 0 ? @wagons_num += 1 : pust("Can't add wagon, we are moving!")
+  end
+
+  def remove_wagon!
+    @speed == 0 ? @wagons_num -= 1 : puts("Can't remove wagon, we are moving!")
+  end
+
+  def route=(route)
+    @route = route
+    self.current_station = @route.waypoints[0]
+    self.current_station.train_arrive!(self)
+  end
+
+  def get_to!(station)
+    if self.route.waypoints.find_index(station)
+      self.current_station.train_departure!(self)
+      self.current_station = station
+      self.current_station.train_arrive!(self)
+    else puts "No route to #{station.name}!"
+    end
+    # dest_station = route.waypoints.find_index { |waypoint| waypoint.name == station }
+    # if dest_station_id
+    #   route.waypoints[current_station_id].train_departure!(self)
+    #   route.waypoints[dest_station_id].train_arrive!(self)
+    #   self.current_station_id = dest_station_id
+    # else
+    #   puts("There is no #{station} in my route, can't get there.")
+    # end
+  end
+
+  def last_station
+    self.route.waypoints[location-1].name
+  end
+
+  def next_station
+    self.route.waypoints[location+1].name
+  end
 
   def freight?
-		type == :freight
-	end
+    type == :freight
+  end
 
   private
   # attr_accessor :current_station_id
+  def location
+    self.route.waypoints.find_index(current_station)
+  end
 
 end
 
@@ -170,13 +175,13 @@ route99.print
 puts "\nCreating freight train Thomas, 3 wagons"
 thomas = Train.new("Thomas", :freight, 3)
 puts "Adding route 95 for Thomas"
-thomas.route(route95)
+thomas.route = route95
 puts "Printing Thomas current station name:"
 p thomas.current_station
 puts "List trains on station Spb"
 spb.list_trains
 puts "Thomas goes to Luban:"
-thomas.get_to!("Любань")
+thomas.get_to!(luban)
 puts "Let's see where is Thomas:"
 p thomas.current_station
 puts "List of trains on station Luban"
@@ -187,14 +192,14 @@ spb.list_trains
 puts "\n\nCreating passenger train Sapsan, 10 wagons"
 p sapsan = Train.new("Sapsan", :passenger, 10)
 puts "Adding route 99 for Sapsan"
-sapsan.route(route99)
-puts "Sapsan current station is #{sapsan.current_station}"
+sapsan.route = route99
+puts "Sapsan current station is #{sapsan.current_station.name}"
 puts "Sapsan goes to Luban"
-sapsan.get_to!("Любань")
-puts "Sapsan current station is #{sapsan.current_station}"
+sapsan.get_to!(luban)
+puts "Sapsan current station is #{sapsan.current_station.name}"
 puts "Lets try sapsan reach Moskow:"
-sapsan.get_to!("Москва")
-puts "Sapsan current station is #{sapsan.current_station}"
+sapsan.get_to!(moskow)
+puts "Sapsan current station is #{sapsan.current_station.name}"
 puts "Sapsan next station is #{sapsan.next_station}"
 puts "Sapsan last station is #{sapsan.last_station}"
 
