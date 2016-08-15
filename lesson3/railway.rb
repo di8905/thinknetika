@@ -3,7 +3,7 @@ class Station
 attr_accessor :name, :trains
 
   def initialize(name)
-  	@name = name
+    @name = name
     @trains = []
   end
 
@@ -16,15 +16,15 @@ attr_accessor :name, :trains
   end
 
   def trains_number_by_type
-  	passenger_train_count = 0
-  	freight_train_count   = 0
-  	@trains.each {|train| train.freight? ? freight_train_count += 1 : passenger_train_count += 1 }
-  	puts "There is #{passenger_train_count} passenger train(s) on #{self.name}"
-  	puts "There is #{freight_train_count} freight train(s) on #{self.name}"
+    passenger_train_count = 0
+    freight_train_count   = 0
+    @trains.each {|train| train.freight? ? freight_train_count += 1 : passenger_train_count += 1 }
+    puts "There is #{passenger_train_count} passenger train(s) on #{self.name}"
+    puts "There is #{freight_train_count} freight train(s) on #{self.name}"
   end
 
   def train_departure!(train)
-  	@trains.delete(train)
+    @trains.delete(train)
   end
 
 end
@@ -35,19 +35,19 @@ class Route
 
   def initialize(start, finish)
     @waypoints = []
-  	@waypoints << start << finish
+    @waypoints << start << finish
   end
 
   def add_waypoint!(station)
-  	@waypoints.insert(-2, station)
+    @waypoints.insert(-2, station)
   end
 
   def delete_waypoint!(station)
-  	@waypoints.delete(station)
+    @waypoints.delete(station)
   end
 
   def print
-  	@waypoints.map {|point| puts "Station #{point.name}\n"}
+    @waypoints.map {|point| puts "Station #{point.name}\n"}
   end
 
 end
@@ -58,42 +58,42 @@ class Train
 
   attr_reader :route, :number, :type, :wagons_num
 
-	def initialize(number, type, wagons_num)
+  def initialize(number, type, wagons_num)
     @number     = number
     @type       = type
     @wagons_num = wagons_num
     @speed      = 0
-	end
+  end
 
-	def accelerate!(speed)
+  def accelerate!(speed)
     @speed = speed
-	end
+  end
 
-	def speed
+  def speed
     @speed
-	end
+  end
 
-	def stop!
+  def stop!
     @speed = 0
-	end
+  end
 
-	def wagons_num
+  def wagons_num
     @wagons_num
-	end
+  end
 
-	def add_wagon!
+  def add_wagon!
     @speed == 0 ? @wagons_num += 1 : pust("Can't add wagon, we are moving!")
-	end
+  end
 
-	def remove_wagon!
+  def remove_wagon!
     @speed == 0 ? @wagons_num -= 1 : puts("Can't remove wagon, we are moving!")
-	end
+  end
 
-	def route!(route) #Не пойму, стоит ли этот метод называть с восклицательным знаком? С методами просто меняющими атрибуты это очевидно, но здесь происходит гораздо больше.
+  def route!(route) #Не пойму, стоит ли этот метод называть с восклицательным знаком? С методами просто меняющими атрибуты это очевидно, но здесь происходит гораздо больше.
     @route = route
     self.current_station_id = 0
     get_to!(@route.waypoints[0].name) #Странно. Если current_station_id делаю private, в этом месте выдает ошибку, типа вызван private метод. Но это же нормально, мы внутри объекта. Почему я не могу тут вызвать private метод?
-	end
+  end
 
   def get_to!(station)
     dest_station_id = route.waypoints.find_index { |waypoint| waypoint.name == station }
@@ -106,21 +106,21 @@ class Train
     end
   end
 
-	def current_station
-		self.route.waypoints[@current_station_id].name
-	end
+  def current_station
+    self.route.waypoints[@current_station_id].name
+  end
 
-	def last_station
-		self.route.waypoints[@current_station_id-1].name
-	end
+  def last_station
+    self.route.waypoints[@current_station_id-1].name
+  end
 
-	def next_station
-		self.route.waypoints[@current_station_id+1].name
-	end
+  def next_station
+    self.route.waypoints[@current_station_id+1].name
+  end
 
-	def freight?
-		type == :freight
-	end
+  def freight?
+    type == :freight
+  end
 
   private
   # attr_accessor :current_station_id
