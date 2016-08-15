@@ -100,7 +100,7 @@ class Train
     @speed == 0 ? @wagons_num -= 1 : puts("Can't remove wagon, we are moving!")
 	end
 
-	def route!(route) #Не пойму, стоит ли этот метод называть с восклицательным знаком? С методами просто меняющими атрибуты это очевидно, но здесь происходит гораздо больше.
+	def route=(route) #Не пойму, стоит ли этот метод называть с восклицательным знаком? С методами просто меняющими атрибуты это очевидно, но здесь происходит гораздо больше.
     @route = route
     self.current_station_id = 0
     get_to!(@route.waypoints[0].name) #Странно. Если current_station_id делаю private, в этом месте выдает ошибку, типа вызван private метод. Но это же нормально, мы внутри объекта. Почему я не могу тут вызвать private метод?
@@ -170,7 +170,7 @@ route99.print
 puts "\nCreating freight train Thomas, 3 wagons"
 thomas = Train.new("Thomas", :freight, 3)
 puts "Adding route 95 for Thomas"
-thomas.route!(route95)
+thomas.route(route95)
 puts "Printing Thomas current station name:"
 p thomas.current_station
 puts "List trains on station Spb"
@@ -187,7 +187,7 @@ spb.list_trains
 puts "\n\nCreating passenger train Sapsan, 10 wagons"
 p sapsan = Train.new("Sapsan", :passenger, 10)
 puts "Adding route 99 for Sapsan"
-sapsan.route!(route99)
+sapsan.route(route99)
 puts "Sapsan current station is #{sapsan.current_station}"
 puts "Sapsan goes to Luban"
 sapsan.get_to!("Любань")
