@@ -58,7 +58,7 @@ class Route
   end
 
   def print
-  	@waypoints.map {|point| puts "Station #{point.name}\n"}
+  	@waypoints.each {|point| puts "Station #{point.name}\n"}
   end
 
 end
