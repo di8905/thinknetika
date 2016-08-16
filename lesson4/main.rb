@@ -5,6 +5,13 @@ require_relative 'passenger_train.rb'
 
 class ControlApp
 
+  attr_accessor :stations, :train
+
+  def initialize
+    @stations = []
+    @trains   = []
+  end
+
   def show_actions_prompt
     print("
     Select action:
@@ -15,9 +22,6 @@ class ControlApp
     5) Move train to station
     6) List stations and trains
     >>".chomp)
-  end
-
-  def show_create_station_prompt
   end
 
   def actions_map(choise)
@@ -33,15 +37,25 @@ class ControlApp
     when 5
       :move_train_to_station
     when 6
-      :list_stations_and_trains
+      :list_stations
     else
       :show_actions_prompt
     end
   end
 
-  def create_station
-    puts "creating station"
+  def list_stations
+    self.stations.each {|station| print "\n#{station.name}\n"}
   end
+
+  def create_station
+    print("Enter station name
+    >>")
+    name = gets.chomp
+    self.stations << Station.new(name)
+    puts "Station #{name} created."
+  end
+
+  
 
   def create_train
   end
