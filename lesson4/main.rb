@@ -34,7 +34,7 @@ class ControlApp
     when 3
       :add_wagon_to_train
     when 4
-      :remove_wagons_from_train
+      :remove_wagon_from_train
     when 5
       :move_train_to_station
     when 6
@@ -73,17 +73,33 @@ class ControlApp
   end
 
   def add_wagon_to_train
-    puts "Select train to add wagons:"
-    self.list_all_trains
-    print (">>")
-    selection = gets.chomp.to_i
-    selected_train = self.trains[selection-1]
+    selected_train = select_train("add")
     selected_train.add_wagon(Wagon.new(selected_train.type))
     puts "Wagon added, #{selected_train.number} now has #{selected_train.wagons_count} wagons"
   end
 
+  def remove_wagon_from_train
+
+  end
+
+  def remove_wagons_from_train
+    puts "Select train to add wagons:"
+    self.list_all_trains
+    print (">>")
+  end
+
   def list_all_trains
     self.trains.each_with_index {|train, i| puts "#{i+1}) #{train.number}" }
+  end
+
+  private
+
+  def select_train(action)
+    puts "Select train to #{action} wagons:"
+    self.list_all_trains
+    print (">>")
+    selection = gets.chomp.to_i
+    self.trains[selection-1]
   end
 
 end
