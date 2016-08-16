@@ -1,74 +1,80 @@
 require_relative 'station.rb'
 require_relative 'route.rb'
-require_relative 'train.rb'
+require_relative 'cargo_train.rb'
+require_relative 'passenger_train.rb'
+
+class ControlApp
+
+  def show_actions_prompt
+    puts <<~ACT_PROMPT
+    Select action:
+    1) Create station
+    2) Create train
+    3) Add wagons to train
+    4) Remove wagons from train
+    5) Move train to station
+    6) List stations and trains
+  ACT_PROMPT
+  end
+
+  def create_station
+    puts "creating station"
+  end
+
+  def create_train
+  end
+
+end
+
+app = ControlApp.new
+
+loop do
+  app.show_actions_prompt
+  action = gets.chomp
+  app.send(action)
+end
 
 
-#Stations tests
-puts "Creating stations:"
-p spb      = Station.new("Спб")
-p moskow   = Station.new("Москва")
-p vishera  = Station.new("Малая Вишера")
-p luban    = Station.new("Любань")
-p novgorod = Station.new("Новгород")
-
-#Route tests
-puts "\nCreating route 95:"
-route95 = Route.new(spb, moskow)
-puts "Adding waypoint vishera"
-route95.add_waypoint!(vishera)
-puts "Printing route:"
-route95.print
-puts "Adding waypoint luban"
-route95.add_waypoint!(luban)
-puts "Route 95 stations list:"
-route95.print
-puts "\nCreatins route 99"
-route99 = Route.new(spb, novgorod)
-puts "Adding waypoint Vishera"
-route99.add_waypoint!(vishera)
-puts "Adding waypoint Luban"
-route99.add_waypoint!(luban)
-puts "Route 99 stations list:"
-route99.print
-
-#Train tests
-puts "\nCreating freight train Thomas, 3 wagons"
-thomas = Train.new("Thomas", :freight, 3)
-puts "Adding route 95 for Thomas"
-thomas.route = route95
-puts "Printing Thomas current station name:"
-p thomas.current_station
-puts "List trains on station Spb"
-spb.list_trains
-puts "Thomas goes to Luban:"
-thomas.get_to!(luban)
-puts "Let's see where is Thomas:"
-p thomas.current_station
-puts "List of trains on station Luban"
-luban.list_trains
-puts "list trains on station Spb"
-spb.list_trains
-
-puts "\n\nCreating passenger train Sapsan, 10 wagons"
-p sapsan = Train.new("Sapsan", :passenger, 10)
-puts "Adding route 99 for Sapsan"
-sapsan.route = route99
-puts "Sapsan current station is #{sapsan.current_station.name}"
-puts "Sapsan goes to Luban"
-sapsan.get_to!(luban)
-puts "Sapsan current station is #{sapsan.current_station.name}"
-puts "Lets try sapsan reach Moskow:"
-sapsan.get_to!(moskow)
-puts "Sapsan current station is #{sapsan.current_station.name}"
-puts "Sapsan next station is #{sapsan.next_station}"
-puts "Sapsan last station is #{sapsan.last_station}"
-
-puts "\n\nList of trains on Любань"
-luban.list_trains
-puts "List of freight trains on Любань"
-luban.list_trains_of_type(:freight)
-
-puts "Route 99:"
-route99.print
-puts "Route 99:"
-route95.print
+#Stations
+# spb      = Station.new("Спб")
+# moskow   = Station.new("Москва")
+# vishera  = Station.new("Малая Вишера")
+# luban    = Station.new("Любань")
+# novgorod = Station.new("Новгород")
+#
+#
+# route95 = Route.new(spb, moskow)
+# route95.add_waypoint!(vishera)
+# route95.print
+# route95.add_waypoint!(luban)
+# route95.print
+#
+#
+# route99 = Route.new(spb, novgorod)
+# route99.add_waypoint!(vishera)
+# route99.add_waypoint!(luban)
+# route99.print
+#
+# #Thomas tests
+# thomas = CargoTrain.new("Thomas")
+# thomas.route = route95
+# thomas.current_station
+# spb.list_trains
+# thomas.get_to!(luban)
+# thomas.current_station
+# luban.list_trains
+# spb.list_trains
+#
+#
+# #Sapsan tests
+# sapsan = PassengerTrain.new("Sapsan")
+# sapsan.route = route99
+# sapsan.get_to!(luban)
+# sapsan.get_to!(moskow)
+# luban.list_trains
+# luban.list_trains_of_type(:freight)
+#
+# puts "Route 99:"
+# route99.print
+# puts "Route 99:"
+# route95.print

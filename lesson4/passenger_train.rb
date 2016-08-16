@@ -1,9 +1,9 @@
 require_relative 'train.rb'
 
-class CargoTrain < Train
+class PassengerTrain < Train
 
   def type
-    :cargo
+    :passenger
   end
 
   def add_wagon(wagon)

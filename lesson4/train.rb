@@ -1,12 +1,13 @@
 class Train
 
-  attr_accessor :current_station #Вообще ему место в private, но валится ошибка. Вопрос в каментах ниже.
+  attr_accessor :current_station
 
   attr_reader :route, :number
 
   def initialize(number)
     @number     = number
     @speed      = 0
+    @wagons     = []
   end
 
   def accelerate!(speed)
@@ -19,14 +20,6 @@ class Train
 
   def stop!
     @speed = 0
-  end
-
-  def add_wagon!
-    @speed == 0 ? @wagons_num += 1 : pust("Can't add wagon, we are moving!")
-  end
-
-  def remove_wagon!
-    @speed == 0 ? @wagons_num -= 1 : puts("Can't remove wagon, we are moving!")
   end
 
   def route=(route)
@@ -51,11 +44,17 @@ class Train
   def next_station
     self.route.waypoints[location+1].name
   end
-  
-  private
-  # attr_accessor :current_station_id
-  def location
+
+  protected
+
+  attr_accessor :wagons
+
+  def location # 1) Метод вызывается только внутри класса 2)Не private т.к. вызывается в потомках
     self.route.waypoints.find_index(current_station)
+  end
+
+  def add_wagon!(wagon)  #1) Метод вызывается только внутри класса 2)Не private т.к. вызывается в потомках
+    speed == 0 ? self.wagons << wagon : puts("Can's add wagon while moving!")
   end
 
 end

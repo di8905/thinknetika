@@ -12,7 +12,7 @@ attr_accessor :name, :trains
   end
 
   def list_trains #Это метод для всех поездов на станции
-    self.trains.each_with_index {|train, i| puts "#{i+1}) #{train.number}, #{train.type}, #{train.wagons_num} wagons"}
+    self.trains.each_with_index {|train, i| puts "#{i+1}) #{train.number}, #{train.type}"}
   end
 
   def list_trains_of_type(type)
