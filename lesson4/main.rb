@@ -5,7 +5,7 @@ require_relative 'passenger_train.rb'
 
 class ControlApp
 
-  attr_accessor :stations, :train
+  attr_accessor :stations, :trains
 
   def initialize
     @stations = []
@@ -55,9 +55,20 @@ class ControlApp
     puts "Station #{name} created."
   end
 
-  
-
   def create_train
+    print("Enter train name
+    >>")
+    num = gets.chomp
+    print("Enter train type
+    >>")
+    type = gets.chomp.to_sym
+    case type
+    when :passenger
+      self.trains << PassengerTrain.new(num)
+    when :cargo
+      self.trains << CargoTrain.new(num)
+    end
+    puts "#{type.to_s.capitalize} train created, his number:#{num}"
   end
 
 end
