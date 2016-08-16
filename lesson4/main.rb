@@ -79,13 +79,9 @@ class ControlApp
   end
 
   def remove_wagon_from_train
-
-  end
-
-  def remove_wagons_from_train
-    puts "Select train to add wagons:"
-    self.list_all_trains
-    print (">>")
+    selected_train = select_train("remove")
+    selected_train.remove_wagon
+    puts "#{selected_train.number} now has #{selected_train.wagons_count} wagons"
   end
 
   def list_all_trains

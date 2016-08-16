@@ -45,6 +45,10 @@ class Train
     self.wagons.length
   end
 
+  def remove_wagon
+    self.wagons.length > 0 ? remove_wagon! : puts("There is no wagons already.")
+  end
+
   def next_station
     self.route.waypoints[location+1].name
   end
@@ -59,6 +63,10 @@ class Train
 
   def add_wagon!(wagon)  #1) Метод вызывается только внутри класса 2)Не private т.к. вызывается в потомках
     speed == 0 ? self.wagons << wagon : puts("Can's add wagon while moving!")
+  end
+
+  def remove_wagon!
+    speed == 0 ? self.wagons.pop : puts("Can's add wagon while moving!")
   end
 
 end
