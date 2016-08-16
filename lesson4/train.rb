@@ -2,12 +2,10 @@ class Train
 
   attr_accessor :current_station #Вообще ему место в private, но валится ошибка. Вопрос в каментах ниже.
 
-  attr_reader :route, :number, :type, :wagons_num
+  attr_reader :route, :number
 
-  def initialize(number, type, wagons_num)
+  def initialize(number)
     @number     = number
-    @type       = type
-    @wagons_num = wagons_num
     @speed      = 0
   end
 
@@ -21,10 +19,6 @@ class Train
 
   def stop!
     @speed = 0
-  end
-
-  def wagons_num
-    @wagons_num
   end
 
   def add_wagon!
@@ -48,14 +42,6 @@ class Train
       self.current_station.train_arrive!(self)
     else puts "No route to #{station.name}!"
     end
-    # dest_station = route.waypoints.find_index { |waypoint| waypoint.name == station }
-    # if dest_station_id
-    #   route.waypoints[current_station_id].train_departure!(self)
-    #   route.waypoints[dest_station_id].train_arrive!(self)
-    #   self.current_station_id = dest_station_id
-    # else
-    #   puts("There is no #{station} in my route, can't get there.")
-    # end
   end
 
   def last_station
@@ -65,11 +51,7 @@ class Train
   def next_station
     self.route.waypoints[location+1].name
   end
-
-  def freight?
-    type == :freight
-  end
-
+  
   private
   # attr_accessor :current_station_id
   def location
