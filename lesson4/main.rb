@@ -21,7 +21,8 @@ class ControlApp
     3) Add wagons to train
     4) Remove wagons from train
     5) Move train to station
-    6) List stations and trains
+    6) List stations
+    7) List trains on selected station
     >>".chomp)
   end
 
@@ -39,13 +40,15 @@ class ControlApp
       :move_train_to_station
     when 6
       :list_stations
+    when 7
+      :list_trains_on_station
     else
       :show_actions_prompt
     end
   end
 
   def list_stations
-    self.stations.each {|station| print "\n#{station.name}\n"}
+    self.stations.each {|station| print "#{station.name}\n"}
   end
 
   def create_station
@@ -73,15 +76,21 @@ class ControlApp
   end
 
   def add_wagon_to_train
-    selected_train = select_train("add")
+    selected_train = select_train("add wagons")
     selected_train.add_wagon(Wagon.new(selected_train.type))
     puts "Wagon added, #{selected_train.number} now has #{selected_train.wagons_count} wagons"
   end
 
   def remove_wagon_from_train
-    selected_train = select_train("remove")
+    selected_train = select_train("remove wagons")
     selected_train.remove_wagon
     puts "#{selected_train.number} now has #{selected_train.wagons_count} wagons"
+  end
+
+  def move_train_to_station
+    selected_train   = select_train("move to station")
+    selected_station = select_station
+    selected_train.move!(selected_station)
   end
 
   def list_all_trains
@@ -90,12 +99,25 @@ class ControlApp
 
   private
 
+  def select_station
+    puts "Select station:"
+    self.list_stations
+    print (">>")
+    selection = gets.chomp.to_i
+    self.stations[selection-1]
+  end
+
   def select_train(action)
-    puts "Select train to #{action} wagons:"
+    puts "Select train to #{action}:"
     self.list_all_trains
     print (">>")
     selection = gets.chomp.to_i
     self.trains[selection-1]
+  end
+
+  def list_trains_on_station
+    selected_station = select_station
+    selected_station.list_trains
   end
 
 end
@@ -103,6 +125,7 @@ end
 
 app = ControlApp.new
 app.trains << PassengerTrain.new("Sapsan") << CargoTrain.new("Thomas")
+app.stations << Station.new("Москва") << Station.new("Вишера") << Station.new("Спб")
 
 loop do
   app.show_actions_prompt

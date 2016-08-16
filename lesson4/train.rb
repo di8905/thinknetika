@@ -28,7 +28,13 @@ class Train
     self.current_station.train_arrive!(self)
   end
 
-  def get_to!(station)
+  def move!(station) #For moving between stations without routes
+    self.current_station.train_departure!(self) if self.current_station
+    self.current_station = station
+    self.current_station.train_arrive!(self)
+  end
+
+  def get_to!(station) #Moves on routes
     if self.route.waypoints.find_index(station)
       self.current_station.train_departure!(self)
       self.current_station = station
