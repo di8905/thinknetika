@@ -6,7 +6,7 @@ require_relative 'passenger_train.rb'
 class ControlApp
 
   def show_actions_prompt
-    puts <<~ACT_PROMPT
+    print("
     Select action:
     1) Create station
     2) Create train
@@ -14,7 +14,29 @@ class ControlApp
     4) Remove wagons from train
     5) Move train to station
     6) List stations and trains
-  ACT_PROMPT
+    >>".chomp)
+  end
+
+  def show_create_station_prompt
+  end
+
+  def actions_map(choise)
+    case choise.to_i
+    when 1
+      :create_station
+    when 2
+      :create_train
+    when 3
+      :add_wagons_to_train
+    when 4
+      :remove_wagons_from_train
+    when 5
+      :move_train_to_station
+    when 6
+      :list_stations_and_trains
+    else
+      :show_actions_prompt
+    end
   end
 
   def create_station
@@ -26,12 +48,13 @@ class ControlApp
 
 end
 
+
 app = ControlApp.new
 
 loop do
   app.show_actions_prompt
   action = gets.chomp
-  app.send(action)
+  app.send(app.actions_map(action))
 end
 
 
