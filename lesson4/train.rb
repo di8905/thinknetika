@@ -41,6 +41,10 @@ class Train
     self.route.waypoints[location-1].name
   end
 
+  def wagons_count
+    self.wagons.length
+  end
+
   def next_station
     self.route.waypoints[location+1].name
   end

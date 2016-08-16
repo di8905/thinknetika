@@ -2,6 +2,7 @@ require_relative 'station.rb'
 require_relative 'route.rb'
 require_relative 'cargo_train.rb'
 require_relative 'passenger_train.rb'
+require_relative 'wagon.rb'
 
 class ControlApp
 
@@ -31,7 +32,7 @@ class ControlApp
     when 2
       :create_train
     when 3
-      :add_wagons_to_train
+      :add_wagon_to_train
     when 4
       :remove_wagons_from_train
     when 5
@@ -71,10 +72,25 @@ class ControlApp
     puts "#{type.to_s.capitalize} train created, his number:#{num}"
   end
 
+  def add_wagon_to_train
+    puts "Select train to add wagons:"
+    self.list_all_trains
+    print (">>")
+    selection = gets.chomp.to_i
+    selected_train = self.trains[selection-1]
+    selected_train.add_wagon(Wagon.new(selected_train.type))
+    puts "Wagon added, #{selected_train.number} now has #{selected_train.wagons_count} wagons"
+  end
+
+  def list_all_trains
+    self.trains.each_with_index {|train, i| puts "#{i+1}) #{train.number}" }
+  end
+
 end
 
 
 app = ControlApp.new
+app.trains << PassengerTrain.new("Sapsan") << CargoTrain.new("Thomas")
 
 loop do
   app.show_actions_prompt
