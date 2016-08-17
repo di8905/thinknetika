@@ -15,6 +15,6 @@ app.stations << Station.new("Москва") << Station.new("Вишера") << St
 #Main worker
 loop do
   app.show_actions_prompt
-  action = gets.chomp
-  app.send(app.actions_map(action))
+  choise = gets.chomp
+  app.action(choise)
 end

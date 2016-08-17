@@ -21,31 +21,31 @@ class ControlApp
     >>".chomp)
   end
 
-  def actions_map(choise)
+  def action(choise)
     case choise.to_i
     when 1
-      :create_station
+      self.create_station
     when 2
-      :create_train
+      self.create_train
     when 3
-      :add_wagon_to_train
+      self.add_wagon_to_train
     when 4
-      :remove_wagon_from_train
+      self.remove_wagon_from_train
     when 5
-      :move_train_to_station
+      self.move_train_to_station
     when 6
-      :list_stations
+      self.list_stations
     when 7
-      :list_trains_on_station
+      self.list_trains_on_station
     when 8
-      :list_all_trains
+      self.list_all_trains
     else
-      :show_actions_prompt
+      self.show_actions_prompt
     end
   end
 
   def list_stations
-    self.stations.each {|station| print "#{station.name}\n"}
+    self.stations.each_with_index {|station, i| print "#{i+1}) #{station.name}\n"}
   end
 
   def create_station
@@ -99,6 +99,11 @@ class ControlApp
     self.trains.each_with_index {|train, i| puts "#{i+1}) #{train.number}" }
   end
 
+  def list_trains_on_station
+    selected_station = select_station
+    selected_station.list_trains
+  end
+
   private
 
   def select_station
@@ -115,11 +120,6 @@ class ControlApp
     print (">>")
     selection = gets.chomp.to_i
     self.trains[selection-1]
-  end
-
-  def list_trains_on_station
-    selected_station = select_station
-    selected_station.list_trains
   end
 
 end
