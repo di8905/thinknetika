@@ -70,8 +70,11 @@ class ControlApp
       trains << PassengerTrain.new(num)
     when :cargo
       trains << CargoTrain.new(num)
+    else
+      puts "Can't create train. Wrong type"
+      return
     end
-    puts "#{type.to_s.capitalize} train created, his number:#{num}"
+    puts "#{type.capitalize} train created, his number:#{num}"
   end
 
   def add_wagon_to_train
