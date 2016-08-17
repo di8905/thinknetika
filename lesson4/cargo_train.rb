@@ -7,8 +7,4 @@ class CargoTrain < Train
     @type = :cargo
   end
 
-  def add_wagon(wagon)
-    wagon.type == self.type ? add_wagon!(wagon) : puts("Wrong wagon type! Can't do it.")
-  end
-
 end

@@ -75,4 +75,7 @@ class Train
     speed == 0 ? self.wagons.pop : puts("Can's add wagon while moving!")
   end
 
+  def appropriate_wagon?(wagon)
+  end
+
 end
