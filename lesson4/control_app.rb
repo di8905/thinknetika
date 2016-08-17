@@ -74,7 +74,12 @@ class ControlApp
 
   def add_wagon_to_train
     selected_train = select_train("add wagons")
-    selected_train.add_wagon(Wagon.new(selected_train.type))
+    if selected_train.type == :cargo
+      selected_train.add_wagon(CargoWagon.new)
+    elsif selected_train.type == :passenger
+      selected_train.add_wagon(PassengerWagon.new)
+    else puts "Appropriate type of wagons not found, sorry..."
+    end
     puts "Wagon added, #{selected_train.number} now has #{selected_train.wagons_count} wagons"
   end
 
