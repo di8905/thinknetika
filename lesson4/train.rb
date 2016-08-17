@@ -1,6 +1,6 @@
 class Train
 
-  attr_accessor :current_station
+  attr_accessor :current_station, :type
 
   attr_reader :route, :number
 
