@@ -1,12 +1,5 @@
 class ControlApp
 
-  attr_accessor :stations, :trains
-
-  def initialize
-    @stations = []
-    @trains   = []
-  end
-
   def show_actions_prompt
     print("
     Select action:
@@ -24,35 +17,44 @@ class ControlApp
   def action(choise)
     case choise.to_i
     when 1
-      self.create_station
+      create_station
     when 2
-      self.create_train
+      create_train
     when 3
-      self.add_wagon_to_train
+      add_wagon_to_train
     when 4
-      self.remove_wagon_from_train
+      remove_wagon_from_train
     when 5
-      self.move_train_to_station
+      move_train_to_station
     when 6
-      self.list_stations
+      list_stations
     when 7
-      self.list_trains_on_station
+      list_trains_on_station
     when 8
-      self.list_all_trains
+      list_all_trains
     else
-      self.show_actions_prompt
+      show_actions_prompt
     end
   end
 
+  private
+
+  attr_accessor :stations, :trains
+
+  def initialize
+    @stations = []
+    @trains   = []
+  end
+
   def list_stations
-    self.stations.each_with_index {|station, i| print "#{i+1}) #{station.name}\n"}
+    stations.each_with_index {|station, i| print "#{i+1}) #{station.name}\n"}
   end
 
   def create_station
     print("Enter station name
     >>")
     name = gets.chomp
-    self.stations << Station.new(name)
+    stations << Station.new(name)
     puts "Station #{name} created."
   end
 
@@ -65,9 +67,9 @@ class ControlApp
     type = gets.chomp.to_sym
     case type
     when :passenger
-      self.trains << PassengerTrain.new(num)
+      trains << PassengerTrain.new(num)
     when :cargo
-      self.trains << CargoTrain.new(num)
+      trains << CargoTrain.new(num)
     end
     puts "#{type.to_s.capitalize} train created, his number:#{num}"
   end
@@ -96,7 +98,7 @@ class ControlApp
   end
 
   def list_all_trains
-    self.trains.each_with_index {|train, i| puts "#{i+1}) #{train.number}" }
+    trains.each_with_index {|train, i| puts "#{i+1}) #{train.number}" }
   end
 
   def list_trains_on_station
@@ -104,22 +106,20 @@ class ControlApp
     selected_station.list_trains
   end
 
-  private
-
   def select_station
     puts "Select station:"
-    self.list_stations
+    list_stations
     print (">>")
     selection = gets.chomp.to_i
-    self.stations[selection-1]
+    stations[selection-1]
   end
 
   def select_train(action)
     puts "Select train to #{action}:"
-    self.list_all_trains
+    list_all_trains
     print (">>")
     selection = gets.chomp.to_i
-    self.trains[selection-1]
+    trains[selection-1]
   end
 
 end

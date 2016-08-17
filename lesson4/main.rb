@@ -9,8 +9,8 @@ require_relative 'control_app.rb'
 app = ControlApp.new
 
 #Some content for tests
-app.trains << PassengerTrain.new("Sapsan") << CargoTrain.new("Thomas")
-app.stations << Station.new("Москва") << Station.new("Вишера") << Station.new("Спб")
+# app.trains << PassengerTrain.new("Sapsan") << CargoTrain.new("Thomas")
+# app.stations << Station.new("Москва") << Station.new("Вишера") << Station.new("Спб")
 
 #Main worker
 loop do
