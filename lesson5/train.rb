@@ -1,7 +1,10 @@
 require_relative 'manufacturer.rb'
+require_relative 'instance_counter.rb'
 
 class Train
+
   include Manufacturer
+  include InstanceCounter
 
   attr_accessor :current_station
   attr_reader :route, :number
@@ -12,12 +15,12 @@ class Train
     @@trains.find { |train| train.number == number }
   end
 
-  def initialize(number, manufacturer = :unknown)
+  def initialize(number)
     @number       = number
     @speed        = 0
     @wagons       = []
-    @manufacturer = manufacturer
     @@trains     << self
+    register_instance
   end
 
   def accelerate!(speed)
@@ -88,5 +91,12 @@ class Train
   def appropriate_wagon?(wagon) #Вроде дублирования кода и избежали, но архитектурно мне кажется это менее удачно. У нас предок как будто знает что-то о своих потомках и предоставляет для них методы. Это нормально?
     wagon.type == self.type
   end
+
+  private
+
+  def self.trains
+    @@trains
+  end
+
 
 end
