@@ -59,22 +59,25 @@ class ControlApp
   end
 
   def create_train
-    print("Enter train name
+    print("Enter train number
     >>")
     num = gets.chomp
     print("Enter train type
     >>")
     type = gets.chomp.to_sym
+    print("Enter train manufacturer
+    >>")
+    manufacturer = gets.chomp.to_sym
     case type
     when :passenger
-      trains << PassengerTrain.new(num)
+      trains << PassengerTrain.new(num, manufacturer)
     when :cargo
-      trains << CargoTrain.new(num)
+      trains << CargoTrain.new(num, manufacturer)
     else
       puts "Can't create train. Wrong type"
       return
     end
-    puts "#{type.capitalize} train created, his number:#{num}"
+    puts "#{type.capitalize} train created, his number: #{num}"
   end
 
   def add_wagon_to_train
@@ -101,7 +104,7 @@ class ControlApp
   end
 
   def list_all_trains
-    trains.each_with_index {|train, i| puts "#{i+1}) #{train.number}" }
+    trains.each_with_index {|train, i| puts "#{i+1}) #{train.number}, type: #{train.type}, manufacturer: #{train.manufacturer}" }
   end
 
   def list_trains_on_station

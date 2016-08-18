@@ -2,9 +2,16 @@ class Station
 
 attr_accessor :name, :trains
 
+@@stations = []
+
+  def self.all
+    @@stations
+  end
+
   def initialize(name)
     @name = name
     @trains = []
+    @@stations << self
   end
 
   def train_arrive!(train)

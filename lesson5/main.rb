@@ -12,7 +12,7 @@ app = ControlApp.new
 # app.trains << PassengerTrain.new("Sapsan") << CargoTrain.new("Thomas")
 # app.stations << Station.new("Москва") << Station.new("Вишера") << Station.new("Спб")
 
-#Main worker
+# Main worker
 loop do
   app.show_actions_prompt
   choise = gets.chomp

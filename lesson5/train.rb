@@ -1,13 +1,23 @@
+require_relative 'manufacturer.rb'
+
 class Train
+  include Manufacturer
 
   attr_accessor :current_station
-
   attr_reader :route, :number
 
-  def initialize(number)
-    @number     = number
-    @speed      = 0
-    @wagons     = []
+  @@trains = []
+
+  def self.find(number)
+    @@trains.find { |train| train.number == number }
+  end
+
+  def initialize(number, manufacturer = :unknown)
+    @number       = number
+    @speed        = 0
+    @wagons       = []
+    @manufacturer = manufacturer
+    @@trains     << self
   end
 
   def accelerate!(speed)
