@@ -1,6 +1,12 @@
+require_relative 'validation.rb'
+
 class Station
 
+include Validation
+
 attr_accessor :name, :trains
+
+NAME_FORMAT = /^\w+/
 
 @@stations = []
 
@@ -8,17 +14,28 @@ attr_accessor :name, :trains
     @@stations
   end
 
+  def rc
+    load "./station.rb"
+  end
+
   def initialize(name)
     @name = name
     @trains = []
+    validate!(name, NAME_FORMAT)
     @@stations << self
+  end
+
+  def valid?
+    validate!(name, NAME_FORMAT)
+   rescue
+    false
   end
 
   def train_arrive!(train)
     @trains << train
   end
 
-  def list_trains #Это метод для всех поездов на станции
+  def list_trains
     self.trains.each_with_index {|train, i| puts "#{i+1}) #{train.number}, #{train.type}"}
   end
 
@@ -33,16 +50,11 @@ attr_accessor :name, :trains
     puts "There is #{count} #{type} trains on the station #{self.name}"
   end
 
-  # def trains_number_by_type
-  #   passenger_train_count = 0
-  #   freight_train_count   = 0
-  #   @trains.each {|train| train.freight? ? freight_train_count += 1 : passenger_train_count += 1 }
-  #   puts "There is #{passenger_train_count} passenger train(s) on #{self.name}"
-  #   puts "There is #{freight_train_count} freight train(s) on #{self.name}"
-  # end
-
   def train_departure!(train)
     @trains.delete(train)
   end
+
+  private
+
 
 end
