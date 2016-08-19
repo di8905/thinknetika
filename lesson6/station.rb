@@ -13,11 +13,7 @@ NAME_FORMAT = /^\w+/
   def self.all
     @@stations
   end
-
-  def rc
-    load "./station.rb"
-  end
-
+  
   def initialize(name)
     @name = name
     @trains = []
@@ -53,8 +49,5 @@ NAME_FORMAT = /^\w+/
   def train_departure!(train)
     @trains.delete(train)
   end
-
-  private
-
 
 end
