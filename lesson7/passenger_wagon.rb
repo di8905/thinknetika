@@ -1,20 +1,14 @@
 require_relative 'wagon.rb'
 
 class PassengerWagon < Wagon
-  attr_reader :seats_quantity, :taken_seats
-  def initialize(seats_quantity = 48)
-    @seats_quantity = seats_quantity
-    @taken_seats    = 0
+
+  def initialize(capacity = 48)
+    super
     @type           = :passenger
   end
 
   def take_seat
-    @taken_seats += 1 if @taken_seats < @seats_quantity
+    self.load += 1 if @self.load < @capacity
   end
-
-  def available_seats
-    self.seats_quantity - self.taken_seats
-  end
-
 
 end

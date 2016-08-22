@@ -82,6 +82,10 @@ class Train
     speed == 0 && appropriate_wagon?(wagon) ? self.wagons << wagon : raise("Can's add wagon while moving!")
   end
 
+  def each_wagon(&block)
+    self.wagons.each {|wagon| block.call(wagon)} if block_given?
+  end
+
   def next_station
     self.route.waypoints[location+1].name
   end

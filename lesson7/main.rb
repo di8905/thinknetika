@@ -8,9 +8,31 @@ require_relative 'control_app.rb'
 
 app = ControlApp.new
 
-#Some content for tests
-# app.trains << PassengerTrain.new("Sapsan") << CargoTrain.new("Thomas")
-# app.stations << Station.new("Москва") << Station.new("Вишера") << Station.new("Спб")
+# Some content for tests
+sap = PassengerTrain.new("Sap-an")
+tho = CargoTrain.new("Tho-as")
+len = CargoTrain.new("Lenny")
+app.send(:trains) << sap << tho << len
+
+spb = Station.new("Spb")
+msk = Station.new("Moskow")
+vi  = Station.new("Vishera")
+app.send(:stations) << msk << vi << spb
+
+pw1 = PassengerWagon.new(10)
+pw2 = PassengerWagon.new(20)
+cw1 = CargoWagon.new(10)
+cw2 = CargoWagon.new(20)
+
+sap.add_wagon(pw1)
+sap.add_wagon(pw2)
+tho.add_wagon(cw1)
+tho.add_wagon(cw2)
+sap.move!(msk)
+tho.move!(spb)
+len.move!(vi)
+
+
 
 # Main worker
 loop do

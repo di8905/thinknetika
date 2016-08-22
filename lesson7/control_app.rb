@@ -10,7 +10,7 @@ class ControlApp
     5) Move train to station
     6) List stations
     7) List trains on selected station
-    8) List all trains
+    8) Trains with wagons by station
     >>".chomp)
   end
 
@@ -31,7 +31,7 @@ class ControlApp
     when 7
       list_trains_on_station
     when 8
-      list_all_trains
+      train_with_wagons_by_station
     else
       show_actions_prompt
     end
@@ -101,8 +101,17 @@ class ControlApp
     selected_train.move!(selected_station)
   end
 
-  def list_all_trains
-    trains.each_with_index {|train, i| puts "#{i+1}) #{train.number}, type: #{train.type}, manufacturer: #{train.manufacturer}" }
+  def train_with_wagons_by_station
+    stations.each do |station|
+      puts "#{station.name}:"
+        station.each_train do |train|
+          puts "  Train number: #{train.number}, Type: #{train.type}, #{train.wagons_count} wagons:"
+          train.each_wagon do |wagon|
+            puts "    Wagon serial: #{wagon.serial}, space available #{wagon.space_avail}"
+          end
+        end
+    end
+
   end
 
   def list_trains_on_station

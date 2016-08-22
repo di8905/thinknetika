@@ -35,7 +35,7 @@ NAME_FORMAT = /^\w+/
     self.trains.each_with_index {|train, i| puts "#{i+1}) #{train.number}, #{train.type}"}
   end
 
-  def trains_each(&block)
+  def each_train(&block)
     self.trains.each {|train| block.call(train)} if block_given?
   end
 
