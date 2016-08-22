@@ -80,10 +80,12 @@ class ControlApp
 
   def add_wagon_to_train
     selected_train = select_train("add wagons")
+    print "Please enter wagon capacity >>"
+    capacity = gets.chomp.to_f
     if selected_train.type == :cargo
-      selected_train.add_wagon(CargoWagon.new)
+      selected_train.add_wagon(CargoWagon.new(capacity))
     elsif selected_train.type == :passenger
-      selected_train.add_wagon(PassengerWagon.new)
+      selected_train.add_wagon(PassengerWagon.new(capacity.to_i))
     else puts "Appropriate type of wagons not found, sorry..."
     end
     puts "Wagon added, #{selected_train.number} now has #{selected_train.wagons_count} wagons"
@@ -102,16 +104,23 @@ class ControlApp
   end
 
   def train_with_wagons_by_station
+    i = 0
     stations.each do |station|
-      puts "#{station.name}:"
+      puts "--#{station.name}:"
         station.each_train do |train|
-          puts "  Train number: #{train.number}, Type: #{train.type}, #{train.wagons_count} wagons:"
+          i += 1
+          puts "  #{i}) Train number: #{train.number}, Type: #{train.type}, #{train.wagons_count} wagons:"
           train.each_wagon do |wagon|
             puts "    Wagon serial: #{wagon.serial}, space available #{wagon.space_avail}"
           end
         end
     end
+  end
 
+  def list_trains
+    trains.each_with_index do |train, i|
+      puts "#{i+1}) #{train.number}"
+    end
   end
 
   def list_trains_on_station
@@ -129,7 +138,7 @@ class ControlApp
 
   def select_train(action)
     puts "Select train to #{action}:"
-    list_all_trains
+    list_trains
     print (">>")
     selection = gets.chomp.to_i
     trains[selection-1]
