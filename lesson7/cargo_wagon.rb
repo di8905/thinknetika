@@ -3,7 +3,7 @@ require_relative 'wagon.rb'
 class CargoWagon < Wagon
   attr_reader :capacity, :load
 
-  def initialize(capacity)
+  def initialize(capacity = 30)
     @capacity = capacity
     @type     = :cargo
     @load     = 0
@@ -17,5 +17,7 @@ class CargoWagon < Wagon
     self.capacity - self.load
   end
 
+  private
+  attr_writer :load
 
 end
