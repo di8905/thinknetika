@@ -1,10 +1,14 @@
 require_relative 'manufacturer.rb'
 require_relative 'instance_counter.rb'
+require_relative 'validation.rb'
 
 class Train
 
+  NUMBER_FORMAT = /^[a-z\d]{3}-?[a-z\d]{2}$/i
+
   include Manufacturer
   include InstanceCounter
+  include Validation
 
   attr_accessor :current_station
   attr_reader :route, :number
@@ -17,10 +21,17 @@ class Train
 
   def initialize(number)
     @number       = number
+    validate!(number, NUMBER_FORMAT)
     @speed        = 0
     @wagons       = []
     @@trains     << self
     register_instance
+  end
+
+  def valid?
+    validate!(self.number, NUMBER_FORMAT)
+  rescue
+    false
   end
 
   def accelerate!(speed)

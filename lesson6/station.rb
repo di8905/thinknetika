@@ -13,7 +13,7 @@ NAME_FORMAT = /^\w+/
   def self.all
     @@stations
   end
-  
+
   def initialize(name)
     @name = name
     @trains = []
@@ -22,7 +22,7 @@ NAME_FORMAT = /^\w+/
   end
 
   def valid?
-    validate!(name, NAME_FORMAT)
+    validate!(self.name, NAME_FORMAT)
    rescue
     false
   end
