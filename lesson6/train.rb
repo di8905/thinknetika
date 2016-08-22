@@ -49,10 +49,9 @@ class Train
 
   def get_to!(station) #Moves on routes
     if self.route.waypoints.find_index(station)
-      self.current_station.train_departure!(self)
-      self.current_station = station
-      self.current_station.train_arrive!(self)
-    else puts "No route to #{station.name}!"
+       self.current_station.train_departure!(self)
+       self.current_station = station
+       self.current_station.train_arrive!(self)
     end
   end
 
@@ -65,11 +64,11 @@ class Train
   end
 
   def remove_wagon
-    self.wagons.length > 0 ? remove_wagon! : puts("There is no wagons already.")
+    remove_wagon! if self.wagons.length > 0
   end
 
-  def add_wagon(wagon)  #1) Метод вызывается только внутри класса 2)Не private т.к. вызывается в потомках
-    speed == 0 && appropriate_wagon?(wagon) ? self.wagons << wagon : puts("Can's add wagon while moving!")
+  def add_wagon(wagon)
+    speed == 0 && appropriate_wagon?(wagon) ? self.wagons << wagon : raise "Can's add wagon while moving!"
   end
 
   def next_station
@@ -85,7 +84,7 @@ class Train
   end
 
   def remove_wagon!
-    speed == 0 ? self.wagons.pop : puts("Can's add wagon while moving!")
+    speed == 0 ? self.wagons.pop : raise "Can's add wagon while moving!"
   end
 
   def appropriate_wagon?(wagon) #Вроде дублирования кода и избежали, но архитектурно мне кажется это менее удачно. У нас предок как будто знает что-то о своих потомках и предоставляет для них методы. Это нормально?
