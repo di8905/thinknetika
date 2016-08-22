@@ -73,9 +73,9 @@ class ControlApp
     else raise "Wrong train type!"
     end
     puts "#{type.capitalize} train created, his number: #{num}"
-  # rescue StandardError => e
-  #   puts e
-  #   retry
+  rescue StandardError => e
+    puts e
+    retry
   end
 
   def add_wagon_to_train

@@ -22,9 +22,9 @@ class Train
   def initialize(number)
     @number       = number
     validate!(number, NUMBER_FORMAT)
-    @speed        = 0
-    @wagons       = []
-    @@trains     << self
+    @speed           = 0
+    @wagons          = []
+    @@trains[number] = self
     register_instance
   end
 
