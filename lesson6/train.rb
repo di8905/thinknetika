@@ -79,7 +79,7 @@ class Train
   end
 
   def add_wagon(wagon)
-    speed == 0 && appropriate_wagon?(wagon) ? self.wagons << wagon : raise "Can's add wagon while moving!"
+    speed == 0 && appropriate_wagon?(wagon) ? self.wagons << wagon : raise("Can's add wagon while moving!")
   end
 
   def next_station
@@ -95,7 +95,7 @@ class Train
   end
 
   def remove_wagon!
-    speed == 0 ? self.wagons.pop : raise "Can's add wagon while moving!"
+    speed == 0 ? self.wagons.pop : raise("Can's add wagon while moving!")
   end
 
   def appropriate_wagon?(wagon) #Вроде дублирования кода и избежали, но архитектурно мне кажется это менее удачно. У нас предок как будто знает что-то о своих потомках и предоставляет для них методы. Это нормально?

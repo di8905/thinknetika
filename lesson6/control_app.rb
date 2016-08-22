@@ -65,20 +65,17 @@ class ControlApp
     print("Enter train type - cargo or passenger allowed
     >>")
     type = gets.chomp.to_sym
-    print("Enter train manufacturer
-    >>")
-    manufacturer = gets.chomp.to_sym
     case type
     when :passenger
-      trains << PassengerTrain.new(num, manufacturer)
+      trains << PassengerTrain.new(num)
     when :cargo
-      trains << CargoTrain.new(num, manufacturer)
+      trains << CargoTrain.new(num)
     else raise "Wrong train type!"
     end
     puts "#{type.capitalize} train created, his number: #{num}"
-  rescue StandardError => e
-    puts e
-    retry
+  # rescue StandardError => e
+  #   puts e
+  #   retry
   end
 
   def add_wagon_to_train
