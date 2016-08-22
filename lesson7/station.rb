@@ -35,6 +35,10 @@ NAME_FORMAT = /^\w+/
     self.trains.each_with_index {|train, i| puts "#{i+1}) #{train.number}, #{train.type}"}
   end
 
+  def trains_each(&block)
+    self.trains.each {|train| block.call(train)} if block_given?
+  end
+
   def list_trains_of_type(type)
     count = 0
     @trains.each do |train|
