@@ -4,9 +4,9 @@ class Station
 
 include Validation
 
-attr_accessor :name, :trains
-
 NAME_FORMAT = /^\w+/
+
+attr_accessor :name, :trains
 
 @@stations = []
 
@@ -32,11 +32,13 @@ NAME_FORMAT = /^\w+/
   end
 
   def list_trains
-    self.trains.each_with_index {|train, i| puts "#{i+1}) #{train.number}, #{train.type}"}
+    self.trains.each_with_index do |train, i|
+    puts "#{i+1}) #{train.number}, #{train.type}"
+    end
   end
 
   def each_train(&block)
-    self.trains.each {|train| block.call(train)} if block_given?
+    self.trains.each { |train| block.call(train) } if block_given?
   end
 
   def list_trains_of_type(type)
