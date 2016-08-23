@@ -11,6 +11,8 @@ class ControlApp
     6) List stations
     7) List trains on selected station
     8) Trains with wagons by station
+    9) List wagons
+   10) Load wagon
     >>".chomp)
   end
 
@@ -29,9 +31,13 @@ class ControlApp
     when 6
       list_stations
     when 7
-      list_trains_on_station
+      trains_with_wagons
     when 8
-      train_with_wagons_by_station
+      trains_by_station
+    when 9
+      list_wagons
+    when 10
+      load_wagon
     else
       show_actions_prompt
     end
@@ -97,35 +103,54 @@ class ControlApp
     puts "#{selected_train.number} now has #{selected_train.wagons_count} wagons"
   end
 
+  def list_wagons(selected_train = nil)
+    selected_train ||= select_train("list wagons")
+    i = 0
+    selected_train.each_wagon do |wagon|
+      i = i + 1
+      puts "    #{i}) Wagon serial: #{wagon.serial}, type: #{wagon.type},  space available #{wagon.space_avail}"
+    end
+  end
+
   def move_train_to_station
     selected_train   = select_train("move to station")
     selected_station = select_station
     selected_train.move!(selected_station)
   end
 
-  def train_with_wagons_by_station
-    i = 0
-    stations.each do |station|
-      puts "--#{station.name}:"
-        station.each_train do |train|
-          i += 1
-          puts "  #{i}) Train number: #{train.number}, Type: #{train.type}, #{train.wagons_count} wagons:"
-          train.each_wagon do |wagon|
-            puts "    Wagon serial: #{wagon.serial}, space available #{wagon.space_avail}"
-          end
-        end
+  def trains_with_wagons(station = nil)
+    station ||= select_station
+    station.each_train do |train|
+      puts "  Train number: #{train.number}, Type: #{train.type}, #{train.wagons_count} wagons:"
+      list_wagons(train)
     end
   end
 
-  def list_trains
+  def trains_by_station
+    stations.each_with_index do |station|
+      puts station.name
+      trains_with_wagons(station)
+    end
+  end
+
+  def load_wagon(selected_train = nil, selected_wagon = nil)
+    selected_train ||= select_train("to load wagon")
+    selected_wagon ||= select_wagon(selected_train)
+    if selected_wagon.type == :passenger
+      selected_wagon.take_seat
+      "Passenger wagon selected, one seat occupied"
+    elsif selected_wagon.type == :cargo
+      puts "Cargo wagon selected, enter amount to load:"
+      amount = gets.chomp.to_f
+      selected_wagon.load!(amount)
+    end
+  rescue NoMethodError  
+  end
+
+  def list_all_trains #Helper for select train
     trains.each_with_index do |train, i|
       puts "#{i+1}) #{train.number}"
     end
-  end
-
-  def list_trains_on_station
-    selected_station = select_station
-    selected_station.list_trains
   end
 
   def select_station
@@ -138,10 +163,17 @@ class ControlApp
 
   def select_train(action)
     puts "Select train to #{action}:"
-    list_trains
+    list_all_trains
     print (">>")
     selection = gets.chomp.to_i
     trains[selection-1]
+  end
+
+  def select_wagon(train = nil)
+    list_wagons(train)
+    print "select wagon to load >> "
+    wagon = gets.chomp.to_i - 1
+    train.wagons[wagon]
   end
 
 end

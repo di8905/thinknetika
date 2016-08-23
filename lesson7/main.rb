@@ -32,8 +32,6 @@ sap.move!(msk)
 tho.move!(spb)
 len.move!(vi)
 
-
-
 # Main worker
 loop do
   app.show_actions_prompt

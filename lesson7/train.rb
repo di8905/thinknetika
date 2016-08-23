@@ -10,7 +10,7 @@ class Train
   include InstanceCounter
   include Validation
 
-  attr_accessor :current_station
+  attr_accessor :current_station, :wagons
   attr_reader :route, :number
 
   @@trains = {}
@@ -91,8 +91,6 @@ class Train
   end
 
   protected
-
-  attr_accessor :wagons
 
   def location # 1) Метод вызывается только внутри класса 2)Не private т.к. вызывается в потомках
     self.route.waypoints.find_index(current_station)

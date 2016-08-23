@@ -8,7 +8,7 @@ class PassengerWagon < Wagon
   end
 
   def take_seat
-    self.load += 1 if @self.load < @capacity
+    self.load += 1 if self.load < @capacity
   end
 
 end

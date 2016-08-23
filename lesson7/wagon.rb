@@ -3,7 +3,8 @@ require          'securerandom'
 
 class Wagon
   include Manufacturer
-  attr_reader :type, :serial, :capacity, :load
+  attr_accessor :load
+  attr_reader :type, :serial, :capacity
 
   def initialize(capacity)
     @serial   = SecureRandom.uuid
@@ -14,9 +15,5 @@ class Wagon
   def space_avail
     self.capacity - self.load
   end
-
-  protected
-
-  attr_writer :load
 
 end
