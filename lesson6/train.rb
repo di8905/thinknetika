@@ -20,7 +20,7 @@ class Train
   end
 
   def initialize(number)
-    @number       = number
+    @number          = number
     validate!(number, NUMBER_FORMAT)
     @speed           = 0
     @wagons          = []

@@ -9,7 +9,7 @@ class Train
   attr_accessor :current_station
   attr_reader :route, :number
 
-  @@trains = []
+  @@trains = {}
 
   def self.find(number)
     @@trains.find { |train| train.number == number }
