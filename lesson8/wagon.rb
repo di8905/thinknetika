@@ -4,7 +4,7 @@ require          'securerandom'
 class Wagon
 
   include Manufacturer
-  
+
   attr_accessor :load
   attr_reader :type, :serial, :capacity
 
@@ -17,5 +17,4 @@ class Wagon
   def space_avail
     self.capacity - self.load
   end
-
 end
