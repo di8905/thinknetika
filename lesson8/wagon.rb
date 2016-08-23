@@ -2,7 +2,9 @@ require_relative 'manufacturer.rb'
 require          'securerandom'
 
 class Wagon
+
   include Manufacturer
+  
   attr_accessor :load
   attr_reader :type, :serial, :capacity
 
