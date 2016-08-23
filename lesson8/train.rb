@@ -4,11 +4,11 @@ require_relative 'validation.rb'
 
 class Train
 
-  NUMBER_FORMAT = /^[a-z\d]{3}-?[a-z\d]{2}$/i
-
   include Manufacturer
   include InstanceCounter
   include Validation
+
+  NUMBER_FORMAT = /^[a-z\d]{3}-?[a-z\d]{2}$/i
 
   attr_accessor :current_station, :wagons
   attr_reader :route, :number
@@ -79,7 +79,11 @@ class Train
   end
 
   def add_wagon(wagon)
-    speed == 0 && appropriate_wagon?(wagon) ? self.wagons << wagon : raise("Can's add wagon while moving!")
+    if speed == 0 && appropriate_wagon?(wagon)
+      self.wagons << wagon
+    else
+      raise("Can's add wagon while moving!")
+    end
   end
 
   def each_wagon(&block)
@@ -92,7 +96,7 @@ class Train
 
   protected
 
-  def location # 1) Метод вызывается только внутри класса 2)Не private т.к. вызывается в потомках
+  def location
     self.route.waypoints.find_index(current_station)
   end
 
@@ -100,7 +104,7 @@ class Train
     speed == 0 ? self.wagons.pop : raise("Can's add wagon while moving!")
   end
 
-  def appropriate_wagon?(wagon) #Вроде дублирования кода и избежали, но архитектурно мне кажется это менее удачно. У нас предок как будто знает что-то о своих потомках и предоставляет для них методы. Это нормально?
+  def appropriate_wagon?(wagon)
     wagon.type == self.type
   end
 
@@ -109,6 +113,4 @@ class Train
   def self.trains
     @@trains
   end
-
-
 end
