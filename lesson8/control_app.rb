@@ -1,46 +1,38 @@
 class ControlApp
 
+ACTION_PROMPT = <<~PROMPT
+Select action:
+1) Create station
+2) Create train
+3) Add wagons to train
+4) Remove wagons from train
+5) Move train to station
+6) List stations
+7) List trains on selected station
+8) Trains with wagons by station
+9) List wagons
+10) Load wagon
+>>
+PROMPT
+
   def show_actions_prompt
-    print("
-    Select action:
-    1) Create station
-    2) Create train
-    3) Add wagons to train
-    4) Remove wagons from train
-    5) Move train to station
-    6) List stations
-    7) List trains on selected station
-    8) Trains with wagons by station
-    9) List wagons
-   10) Load wagon
-    >>".chomp)
+    print(ACTION_PROMPT.chomp)
   end
 
   def action(choise)
-    case choise.to_i
-    when 1
-      create_station
-    when 2
-      create_train
-    when 3
-      add_wagon_to_train
-    when 4
-      remove_wagon_from_train
-    when 5
-      move_train_to_station
-    when 6
-      list_stations
-    when 7
-      trains_with_wagons
-    when 8
-      trains_by_station
-    when 9
-      list_wagons
-    when 10
-      load_wagon
-    else
-      show_actions_prompt
-    end
+  actions = {
+    '1' => :create_station,
+    '2' => :create_train,
+    '3' => :add_wagon_to_train,
+    '4' => :remove_wagon_from_train,
+    '5' => :move_train_to_station,
+    '6' => :list_stations,
+    '7' => :trains_with_wagons,
+    '8' => :trains_by_station,
+    '9' => :list_wagons,
+   '10' => :load_wagon
+  }
+  actions[choise] || :show_actions_prompt
   end
 
   private
@@ -59,9 +51,7 @@ class ControlApp
   def create_station
     print("Enter station name
     >>")
-    name = gets.chomp
-    stations << Station.new(name)
-    puts "Station #{name} created."
+    stations << Station.new(gets.chomp)    
   end
 
   def create_train
@@ -144,7 +134,7 @@ class ControlApp
       amount = gets.chomp.to_f
       selected_wagon.load!(amount)
     end
-  rescue NoMethodError  
+  rescue NoMethodError
   end
 
   def list_all_trains #Helper for select train

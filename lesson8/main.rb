@@ -35,6 +35,5 @@ len.move!(vi)
 # Main worker
 loop do
   app.show_actions_prompt
-  choise = gets.chomp
-  app.action(choise)
+  app.send(app.action(gets.chomp))
 end
