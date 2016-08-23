@@ -4,11 +4,10 @@ class PassengerWagon < Wagon
 
   def initialize(capacity = 48)
     super
-    @type           = :passenger
+    @type = :passenger
   end
 
   def take_seat
     self.load += 1 if self.load < @capacity
   end
-
 end

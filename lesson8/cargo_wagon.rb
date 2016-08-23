@@ -6,8 +6,8 @@ class CargoWagon < Wagon
 
   def initialize(capacity = 30)
     super
-    @type     = :cargo
-    @load     = 0
+    @type = :cargo
+    @load = 0
   end
 
   def load!(val)
