@@ -22,7 +22,7 @@ PROMPT
   def action(choise)
   actions = {
     '1' => :create_station,
-    '2' => :create_train,
+    '2' => :create_train_dialog,
     '3' => :add_wagon_to_train,
     '4' => :remove_wagon_from_train,
     '5' => :move_train_to_station,
@@ -51,16 +51,22 @@ PROMPT
   def create_station
     print("Enter station name
     >>")
-    stations << Station.new(gets.chomp)    
+    stations << Station.new(gets.chomp)
   end
 
-  def create_train
-    print("Enter train number in xxx-xx or xxxxx format
-    >>")
+  def create_train_dialog
+    print("Enter train number in xxx-xx or xxxxx format\n>>")
     num = gets.chomp
-    print("Enter train type - cargo or passenger allowed
-    >>")
+    print("Enter train type - cargo or passenger allowed\n>>")
     type = gets.chomp.to_sym
+    create_train(num, type)
+    puts "#{type.capitalize} train created, his number: #{num}"
+  rescue StandardError => e
+    puts e
+    retry
+  end
+
+  def create_train(num, type)
     case type
     when :passenger
       trains << PassengerTrain.new(num)
@@ -68,10 +74,6 @@ PROMPT
       trains << CargoTrain.new(num)
     else raise "Wrong train type!"
     end
-    puts "#{type.capitalize} train created, his number: #{num}"
-  rescue StandardError => e
-    puts e
-    retry
   end
 
   def add_wagon_to_train
