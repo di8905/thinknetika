@@ -1,7 +1,7 @@
 class ControlApp
 
 ACTION_PROMPT = <<~PROMPT
-Select action:
+\n\nSelect action:
 1) Create station
 2) Create train
 3) Add wagons to train
@@ -23,7 +23,7 @@ PROMPT
   actions = {
     '1' => :create_station,
     '2' => :create_train_dialog,
-    '3' => :add_wagon_to_train,
+    '3' => :add_wagon_dialog,
     '4' => :remove_wagon_from_train,
     '5' => :move_train_to_station,
     '6' => :list_stations,
@@ -76,17 +76,21 @@ PROMPT
     end
   end
 
-  def add_wagon_to_train
+  def add_wagon_dialog
     selected_train = select_train("add wagons")
     print "Please enter wagon capacity >>"
     capacity = gets.chomp.to_f
-    if selected_train.type == :cargo
-      selected_train.add_wagon(CargoWagon.new(capacity))
-    elsif selected_train.type == :passenger
-      selected_train.add_wagon(PassengerWagon.new(capacity.to_i))
-    else puts "Appropriate type of wagons not found, sorry..."
-    end
+    add_wagon(selected_train, capacity)
     puts "Wagon added, #{selected_train.number} now has #{selected_train.wagons_count} wagons"
+  end
+
+  def add_wagon(train, capacity)
+    case train.type
+    when :cargo
+      train.add_wagon(CargoWagon.new(capacity))
+    when :passenger
+      train.add_wagon(PassengerWagon.new(capacity.to_i))
+    end
   end
 
   def remove_wagon_from_train

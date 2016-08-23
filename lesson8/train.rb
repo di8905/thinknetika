@@ -79,8 +79,8 @@ class Train
   end
 
   def add_wagon(wagon)
-    if speed == 0 && appropriate_wagon?(wagon)
-      self.wagons << wagon
+    if speed == 0 
+      self.wagons << wagon if appropriate_wagon?(wagon)
     else
       raise("Can's add wagon while moving!")
     end
