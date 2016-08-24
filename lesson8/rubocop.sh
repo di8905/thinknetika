@@ -1,2 +1,2 @@
 #! /bin/bash
-rubocop passenger_train.rb -D -S
+rubocop cargo_train.rb -D -S
