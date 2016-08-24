@@ -93,8 +93,8 @@ PROMPT
     end
   end
 
-  def remove_wagon_from_train
-    selected_train = select_train("remove wagons")
+  def remove_wagon_from_train(selected_train = nil)
+    selected_train ||= select_train("remove wagons")
     selected_train.remove_wagon
     puts "#{selected_train.number} now has #{selected_train.wagons_count} wagons"
   end
