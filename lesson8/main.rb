@@ -9,14 +9,14 @@ require_relative 'control_app.rb'
 app = ControlApp.new
 
 # Some content for tests
-sap = PassengerTrain.new("Sap-an")
-tho = CargoTrain.new("Tho-as")
-len = CargoTrain.new("Lenny")
+sap = PassengerTrain.new('Sap-an')
+tho = CargoTrain.new('Tho-as')
+len = CargoTrain.new('Lenny')
 app.send(:trains) << sap << tho << len
 
-spb = Station.new("Spb")
-msk = Station.new("Moskow")
-vi  = Station.new("Vishera")
+spb = Station.new('Spb')
+msk = Station.new('Moskow')
+vi  = Station.new('Vishera')
 app.send(:stations) << msk << vi << spb
 
 pw1 = PassengerWagon.new(10)

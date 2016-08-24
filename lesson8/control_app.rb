@@ -1,18 +1,18 @@
 class ControlApp
-# ACTION_PROMPT = <<~PROMPT
-# \n\nSelect action:
-# 1) Create station
-# 2) Create train
-# 3) Add wagons to train
-# 4) Remove wagons from train
-# 5) Move train to station
-# 6) List stations
-# 7) List trains on selected station
-# 8) Trains with wagons by station
-# 9) List wagons
-# 10) Load wagon
-# >>
-# PROMPT
+  ACTION_PROMPT = <<~PROMPT
+  \n\nSelect action:
+  1) Create station
+  2) Create train
+  3) Add wagons to train
+  4) Remove wagons from train
+  5) Move train to station
+  6) List stations
+  7) List trains on selected station
+  8) Trains with wagons by station
+  9) List wagons
+  10) Load wagon
+  >>
+  PROMPT
   def show_actions_prompt
     print(ACTION_PROMPT.chomp)
   end
@@ -70,13 +70,13 @@ class ControlApp
       trains << PassengerTrain.new(num)
     when :cargo
       trains << CargoTrain.new(num)
-    else raise "Wrong train type!"
+    else raise 'Wrong train type!'
     end
   end
 
   def add_wagon_dialog
-    selected_train = select_train("add wagons")
-    print "Please enter wagon capacity >>"
+    selected_train = select_train('add wagons')
+    print 'Please enter wagon capacity >>'
     capacity = gets.chomp.to_f
     add_wagon(selected_train, capacity)
     puts "Wagon added, #{selected_train.number} now has #{selected_train.wagons_count} wagons"
@@ -92,13 +92,13 @@ class ControlApp
   end
 
   def remove_wagon_from_train(selected_train = nil)
-    selected_train ||= select_train("remove wagons")
+    selected_train ||= select_train('remove wagons')
     selected_train.remove_wagon
     puts "#{selected_train.number} now has #{selected_train.wagons_count} wagons"
   end
 
   def list_wagons(selected_train = nil)
-    selected_train ||= select_train("list wagons")
+    selected_train ||= select_train('list wagons')
     i = 0
     selected_train.each_wagon do |wagon|
       i += 1
@@ -107,7 +107,7 @@ class ControlApp
   end
 
   def move_train_to_station
-    selected_train   = select_train("move to station")
+    selected_train   = select_train('move to station')
     selected_station = select_station
     selected_train.move!(selected_station)
   end
@@ -128,13 +128,13 @@ class ControlApp
   end
 
   def load_wagon(selected_train = nil, selected_wagon = nil)
-    selected_train ||= select_train("to load wagon")
+    selected_train ||= select_train('to load wagon')
     selected_wagon ||= select_wagon(selected_train)
     if selected_wagon.type == :passenger
       selected_wagon.take_seat
-      puts "Passenger wagon selected, one seat occupied"
+      puts 'Passenger wagon selected, one seat occupied'
     elsif selected_wagon.type == :cargo
-      puts "Cargo wagon selected, enter amount to load:"
+      puts 'Cargo wagon selected, enter amount to load:'
       amount = gets.chomp.to_f
       selected_wagon.load!(amount)
     end
@@ -147,9 +147,9 @@ class ControlApp
   end
 
   def select_station
-    puts "Select station:"
+    puts 'Select station:'
     list_stations
-    print ">>"
+    print '>>'
     selection = gets.chomp.to_i
     stations[selection - 1]
   end
@@ -157,14 +157,14 @@ class ControlApp
   def select_train(action)
     puts "Select train to #{action}:"
     list_all_trains
-    print ">>"
+    print '>>'
     selection = gets.chomp.to_i
     trains[selection - 1]
   end
 
   def select_wagon(train = nil)
     list_wagons(train)
-    print "select wagon to load >> "
+    print 'select wagon to load >> '
     wagon = gets.chomp.to_i - 1
     train.wagons[wagon]
   end
