@@ -1,5 +1,4 @@
 class Route
-
   attr_reader :waypoints
 
   def initialize(start, finish)
@@ -16,7 +15,6 @@ class Route
   end
 
   def print
-    @waypoints.each {|point| puts "Station #{point.name}\n"}
+    @waypoints.each { |point| puts "Station #{point.name}\n" }
   end
-
 end
