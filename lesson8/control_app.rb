@@ -1,38 +1,36 @@
 class ControlApp
-
-ACTION_PROMPT = <<~PROMPT
-\n\nSelect action:
-1) Create station
-2) Create train
-3) Add wagons to train
-4) Remove wagons from train
-5) Move train to station
-6) List stations
-7) List trains on selected station
-8) Trains with wagons by station
-9) List wagons
-10) Load wagon
->>
-PROMPT
-
+# ACTION_PROMPT = <<~PROMPT
+# \n\nSelect action:
+# 1) Create station
+# 2) Create train
+# 3) Add wagons to train
+# 4) Remove wagons from train
+# 5) Move train to station
+# 6) List stations
+# 7) List trains on selected station
+# 8) Trains with wagons by station
+# 9) List wagons
+# 10) Load wagon
+# >>
+# PROMPT
   def show_actions_prompt
     print(ACTION_PROMPT.chomp)
   end
 
   def action(choise)
-  actions = {
-    '1' => :create_station,
-    '2' => :create_train_dialog,
-    '3' => :add_wagon_dialog,
-    '4' => :remove_wagon_from_train,
-    '5' => :move_train_to_station,
-    '6' => :list_stations,
-    '7' => :trains_with_wagons,
-    '8' => :trains_by_station,
-    '9' => :list_wagons,
-   '10' => :load_wagon
-  }
-  actions[choise] || :show_actions_prompt
+    actions = {
+      '1' => :create_station,
+      '2' => :create_train_dialog,
+      '3' => :add_wagon_dialog,
+      '4' => :remove_wagon_from_train,
+      '5' => :move_train_to_station,
+      '6' => :list_stations,
+      '7' => :trains_with_wagons,
+      '8' => :trains_by_station,
+      '9' => :list_wagons,
+      '10' => :load_wagon
+    }
+    actions[choise] || :show_actions_prompt
   end
 
   private
@@ -45,7 +43,7 @@ PROMPT
   end
 
   def list_stations
-    stations.each_with_index {|station, i| print "#{i+1}) #{station.name}\n"}
+    stations.each_with_index { |station, i| print "#{i + 1}) #{station.name}\n" }
   end
 
   def create_station
@@ -103,7 +101,7 @@ PROMPT
     selected_train ||= select_train("list wagons")
     i = 0
     selected_train.each_wagon do |wagon|
-      i = i + 1
+      i += 1
       puts "    #{i}) Wagon serial: #{wagon.serial}, type: #{wagon.type},  space available #{wagon.space_avail}"
     end
   end
@@ -140,29 +138,28 @@ PROMPT
       amount = gets.chomp.to_f
       selected_wagon.load!(amount)
     end
-  rescue NoMethodError
   end
 
-  def list_all_trains #Helper for select train
+  def list_all_trains # Helper for select train
     trains.each_with_index do |train, i|
-      puts "#{i+1}) #{train.number}"
+      puts "#{i + 1}) #{train.number}"
     end
   end
 
   def select_station
     puts "Select station:"
     list_stations
-    print (">>")
+    print ">>"
     selection = gets.chomp.to_i
-    stations[selection-1]
+    stations[selection - 1]
   end
 
   def select_train(action)
     puts "Select train to #{action}:"
     list_all_trains
-    print (">>")
+    print ">>"
     selection = gets.chomp.to_i
-    trains[selection-1]
+    trains[selection - 1]
   end
 
   def select_wagon(train = nil)
@@ -171,5 +168,4 @@ PROMPT
     wagon = gets.chomp.to_i - 1
     train.wagons[wagon]
   end
-
 end
