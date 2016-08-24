@@ -1,5 +1,4 @@
 module Validation
-
   protected
 
   def validate!(attribute, template)
