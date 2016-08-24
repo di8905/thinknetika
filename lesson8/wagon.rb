@@ -2,7 +2,6 @@ require_relative 'manufacturer.rb'
 require          'securerandom'
 
 class Wagon
-
   include Manufacturer
 
   attr_accessor :load
@@ -15,6 +14,6 @@ class Wagon
   end
 
   def space_avail
-    self.capacity - self.load
+    capacity - load
   end
 end
