@@ -1,2 +1,2 @@
 #! /bin/bash
-rubocop route.rb -D -S
+rubocop train.rb -D -S

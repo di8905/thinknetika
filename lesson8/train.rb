@@ -3,7 +3,6 @@ require_relative 'instance_counter.rb'
 require_relative 'validation.rb'
 
 class Train
-
   include Manufacturer
   include InstanceCounter
   include Validation
@@ -11,25 +10,31 @@ class Train
   NUMBER_FORMAT = /^[a-z\d]{3}-?[a-z\d]{2}$/i
 
   attr_accessor :current_station, :wagons
-  attr_reader :route, :number
+  attr_reader :route, :number, :speed
 
   @@trains = {}
 
-  def self.find(number)
-    @@trains.find { |train| train.number == number }
+  class << self
+    def find(number)
+      @@trains.find { |train| train.number == number }
+    end
+
+    def trains
+      @@trains
+    end
   end
 
   def initialize(number)
-    @number          = number
+    @number = number
     validate!(number, NUMBER_FORMAT)
-    @speed           = 0
-    @wagons          = []
+    @speed = 0
+    @wagons = []
     @@trains[number] = self
     register_instance
   end
 
   def valid?
-    validate!(self.number, NUMBER_FORMAT)
+    validate!(number, NUMBER_FORMAT)
   rescue
     false
   end
@@ -38,79 +43,67 @@ class Train
     @speed = speed
   end
 
-  def speed
-    @speed
-  end
-
   def stop!
     @speed = 0
   end
 
   def route=(route)
     @route = route
-    self.current_station = @route.waypoints[0]
-    self.current_station.train_arrive!(self)
+    current_station = @route.waypoints[0]
+    current_station.train_arrive!(self)
   end
 
-  def move!(station) #For moving between stations without routes
-    self.current_station.train_departure!(self) if self.current_station
+  def move!(station) # For moving between stations without routes
+    current_station.train_departure!(self) if current_station
     self.current_station = station
-    self.current_station.train_arrive!(self)
+    current_station.train_arrive!(self)
   end
 
-  def get_to!(station) #Moves on routes
-    if self.route.waypoints.find_index(station)
-       self.current_station.train_departure!(self)
-       self.current_station = station
-       self.current_station.train_arrive!(self)
+  def get_to!(station) # Moves on routes
+    if route.waypoints.find_index(station)
+      current_station.train_departure!(self)
+      self.current_station = station
+      current_station.train_arrive!(self)
     end
   end
 
   def last_station
-    self.route.waypoints[location-1].name
+    route.waypoints[location - 1].name
   end
 
   def wagons_count
-    self.wagons.length
+    wagons.length
   end
 
   def remove_wagon
-    remove_wagon! if self.wagons.length > 0
+    remove_wagon! if wagons.!empty?
   end
 
   def add_wagon(wagon)
-    if speed == 0 
-      self.wagons << wagon if appropriate_wagon?(wagon)
-    else
-      raise("Can's add wagon while moving!")
-    end
+    return unless appropriate_wagon?(wagon)
+    raise("Can's add wagon while moving!") unless speed.zero?
+    wagons << wagon
   end
 
-  def each_wagon(&block)
-    self.wagons.each {|wagon| block.call(wagon)} if block_given?
+  def each_wagon
+    wagons.each { |wagon| yield(wagon) } if block_given?
   end
 
   def next_station
-    self.route.waypoints[location+1].name
+    route.waypoints[location + 1].name
   end
 
   protected
 
   def location
-    self.route.waypoints.find_index(current_station)
+    route.waypoints.find_index(current_station)
   end
 
   def remove_wagon!
-    speed == 0 ? self.wagons.pop : raise("Can's add wagon while moving!")
+    speed.zero? ? wagons.pop : raise("Can's add wagon while moving!")
   end
 
   def appropriate_wagon?(wagon)
-    wagon.type == self.type
-  end
-
-  private
-
-  def self.trains
-    @@trains
+    wagon.type == type
   end
 end
