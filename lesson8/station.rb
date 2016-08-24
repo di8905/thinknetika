@@ -9,12 +9,12 @@ class Station
 
   @stations = []
 
-  def self.all
-    @stations
-  end
-
   class << self
-    attr_writer :stations
+    attr_accessor :stations
+
+    def all
+      @stations
+    end
   end
 
   def initialize(name)
