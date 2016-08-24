@@ -134,7 +134,7 @@ PROMPT
     selected_wagon ||= select_wagon(selected_train)
     if selected_wagon.type == :passenger
       selected_wagon.take_seat
-      "Passenger wagon selected, one seat occupied"
+      puts "Passenger wagon selected, one seat occupied"
     elsif selected_wagon.type == :cargo
       puts "Cargo wagon selected, enter amount to load:"
       amount = gets.chomp.to_f

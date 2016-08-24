@@ -1,29 +1,32 @@
 require_relative 'validation.rb'
 
 class Station
+  include Validation
 
-include Validation
+  NAME_FORMAT = /^\w+/
 
-NAME_FORMAT = /^\w+/
+  attr_accessor :name, :trains
 
-attr_accessor :name, :trains
-
-@@stations = []
+  @stations = []
 
   def self.all
-    @@stations
+    @stations
+  end
+
+  class << self
+    attr_writer :stations
   end
 
   def initialize(name)
     @name = name
     @trains = []
     validate!(name, NAME_FORMAT)
-    @@stations << self
+    self.class.stations << self
   end
 
   def valid?
-    validate!(self.name, NAME_FORMAT)
-   rescue
+    validate!(name, NAME_FORMAT)
+  rescue
     false
   end
 
@@ -32,13 +35,13 @@ attr_accessor :name, :trains
   end
 
   def list_trains
-    self.trains.each_with_index do |train, i|
-    puts "#{i+1}) #{train.number}, #{train.type}"
+    trains.each_with_index do |train, i|
+      puts "#{i + 1}) #{train.number}, #{train.type}"
     end
   end
 
-  def each_train(&block)
-    self.trains.each { |train| block.call(train) } if block_given?
+  def each_train
+    trains.each { |train| yield(train) } if block_given?
   end
 
   def list_trains_of_type(type)
@@ -49,11 +52,10 @@ attr_accessor :name, :trains
         count += 1
       end
     end
-    puts "There is #{count} #{type} trains on the station #{self.name}"
+    puts "There is #{count} #{type} trains on the station #{name}"
   end
 
   def train_departure!(train)
     @trains.delete(train)
   end
-
 end
