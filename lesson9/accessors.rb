@@ -19,6 +19,14 @@ module Accessors
       end
     end
 
+    def strong_attr_accessor(name, type)
+      var_name = "@#{name}".to_sym
+      define_method(name.to_sym) { instance_variable_get(var_name) }
+      define_method("#{name}=".to_sym) do |value|
+        raise TypeError unless value.is_a?(type)
+        instance_variable_set(var_name, value)
+      end
+    end
   end
 
   module InstanceMethods
@@ -28,13 +36,18 @@ end
 
 class Test
   include Accessors
-  attr_accessor_with_history :vwh, :ttest
+  strong_attr_accessor :str, String
+  strong_attr_accessor :int, Integer
+  # attr_accessor_with_history :vwh, :ttest
 end
 
 t = Test.new
-p t.vwh = 6
-p t.vwh = "demon"
-p t.vwh_history
-p t.ttest = "13"
-p t.ttest = "lksdjflksf"
-p t.ttest_history
+t.str = 'ququ'
+t.int = 1
+
+# p t.vwh = 6
+# p t.vwh = "demon"
+# p t.vwh_history
+# p t.ttest = "13"
+# p t.ttest = "lksdjflksf"
+# p t.ttest_history
