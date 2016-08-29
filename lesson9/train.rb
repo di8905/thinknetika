@@ -11,6 +11,8 @@ class Train
 
   attr_accessor :current_station, :wagons
   attr_reader :route, :number, :speed
+  validate :number, :presence
+  validate :number, :format, NUMBER_FORMAT
 
   @@trains = {}
 
@@ -26,7 +28,7 @@ class Train
 
   def initialize(number)
     @number = number
-    validate!(number, NUMBER_FORMAT)
+
     @speed = 0
     @wagons = []
     @@trains[number] = self
