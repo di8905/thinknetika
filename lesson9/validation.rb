@@ -14,18 +14,19 @@ module Validation
   module InstanceMethods
     def validate!
       self.class.class_variable_get(:@@validations).each_pair do |validation, params|
-       attribute, validation_type = validation
-       send("validate_#{validation_type}".to_sym, attribute, *params)
+        value = instance_variable_get("@#{validation[0]}".to_sym)
+        validation_type = validation[1]
+        send("validate_#{validation_type}".to_sym, value, *params)
       end
     end
 
-    def validate_presence(attribute)
-      value = instance_variable_get("@#{attribute}".to_sym)
+    def validate_presence(value)
       raise "Attribute cannot be empty or blank" unless value && !value.strip.empty?
     end
 
-    def validate_format(attribute, *params)
-      p "checking format"
+    def validate_format(value, *params)
+      format = params[0]
+      raise "Wrong attribute format" unless value =~ format
     end
 
     def validate_type(attribute, *params)
