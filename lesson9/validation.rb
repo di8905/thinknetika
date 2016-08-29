@@ -29,12 +29,9 @@ module Validation
       raise "Wrong attribute format" unless value =~ format
     end
 
-    def validate_type(attribute, *params)
-      p "checking type"
+    def validate_type(value, *params)
+      type = params[0]
+      raise "Wrong attribute type" unless value.is_a?(type)
     end
   end
-  # def validate!(attribute, template)
-  #   raise 'Wrong input format' if attribute !~ template
-  #   true
-  # end
 end
