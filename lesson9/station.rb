@@ -8,7 +8,7 @@ class Station
   attr_accessor :name, :trains
   validate :name, :presence
   validate :name, :format, NAME_FORMAT
-
+  
   @stations = []
 
   class << self

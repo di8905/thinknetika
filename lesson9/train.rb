@@ -1,6 +1,7 @@
 require_relative 'manufacturer.rb'
 require_relative 'instance_counter.rb'
 require_relative 'validation.rb'
+require_relative 'station.rb'
 
 class Train
   include Manufacturer
@@ -14,6 +15,7 @@ class Train
   validate :number, :presence
   validate :number, :format, NUMBER_FORMAT
   validate :number, :type, String
+  validate :current_station, :type, Station
 
   @@trains = {}
 
@@ -31,15 +33,10 @@ class Train
     @number = number
     @speed = 0
     @wagons = []
+    @current_station = Station.new("empty default station")
     validate!
     @@trains[number] = self
     register_instance
-  end
-
-  def valid?
-    validate!(number, NUMBER_FORMAT)
-  rescue
-    false
   end
 
   def accelerate!(speed)

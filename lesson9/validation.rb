@@ -21,17 +21,24 @@ module Validation
     end
 
     def validate_presence(value)
-      raise "Attribute cannot be empty or blank" unless value && !value.strip.empty?
+      raise StandardError, "Attribute cannot be empty or blank" unless value && !value.strip.empty?
     end
 
     def validate_format(value, *params)
       format = params[0]
-      raise "Wrong attribute format" unless value =~ format
+      raise StandardError, "Wrong attribute format" unless value =~ format
     end
 
     def validate_type(value, *params)
       type = params[0]
-      raise "Wrong attribute type" unless value.is_a?(type)
+      raise StandardError, "Wrong attribute type" unless value.is_a?(type)
+    end
+
+    def valid?
+      validate!
+      true
+    rescue StandardError
+      false
     end
   end
 end

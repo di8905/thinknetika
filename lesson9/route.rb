@@ -1,4 +1,7 @@
+require_relative 'validation.rb'
+
 class Route
+  include Validation
   attr_reader :waypoints
 
   def initialize(start, finish)

@@ -32,8 +32,13 @@ sap.move!(msk)
 tho.move!(spb)
 len.move!(vi)
 
+p sap.valid?
+p tho.valid?
+sap.instance_variable_set(:@number, "Sapsaan")
+p sap.valid?
+
 # Main worker
-loop do
-  app.show_actions_prompt
-  app.send(app.action(gets.chomp))
-end
+# loop do
+#   app.show_actions_prompt
+#   app.send(app.action(gets.chomp))
+# end
