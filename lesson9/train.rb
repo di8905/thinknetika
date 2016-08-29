@@ -13,6 +13,7 @@ class Train
   attr_reader :route, :number, :speed
   validate :number, :presence
   validate :number, :format, NUMBER_FORMAT
+  validate :number, :type, String
 
   @@trains = {}
 
@@ -28,9 +29,9 @@ class Train
 
   def initialize(number)
     @number = number
-
     @speed = 0
     @wagons = []
+    validate!
     @@trains[number] = self
     register_instance
   end

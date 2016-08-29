@@ -6,6 +6,8 @@ class Station
   NAME_FORMAT = /^\w+/
 
   attr_accessor :name, :trains
+  validate :name, :presence
+  validate :name, :format, NAME_FORMAT
 
   @stations = []
 
@@ -20,7 +22,7 @@ class Station
   def initialize(name)
     @name = name
     @trains = []
-    validate!(name, NAME_FORMAT)
+    validate!
     self.class.stations << self
   end
 

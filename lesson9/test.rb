@@ -1,2 +1,5 @@
 load './train.rb'
-p t = Train.new("12313")
+load './station.rb'
+p t = Train.new("12-313")
+
+p s = Station.new("Vishera")
